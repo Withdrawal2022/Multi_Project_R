@@ -8,26 +8,40 @@
 #
 
 library(shiny)
+library(shinydashboard)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+library(shiny)
+library(shinydashboard)
 
-    # Application title
-    titlePanel("Old Faithful Geyser Data"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-            plotOutput("distPlot")
-        )
+dashboardPage(
+  dashboardHeader(title = "选择框传入参数"),
+  dashboardSidebar(
+    # 定义选择框
+    selectInput("variable",  # 传入变量名称
+                "Ranking Type：", # 提示文字
+                # 选项内容，左边是显示字符，右边是传入变量名称，若是向量传递则字符与变量相同
+                list("CWUR" = "cyl",  
+                     "ARWU" = "am", # 列表传递，可以修改显示
+                     "THE" = "gear",
+                     "Romanian"= "",
+                     "EduExp"="")
     )
-))
+    # 定义勾选框
+    # checkboxInput("outliers",  # 传入变量名称
+    #               "显示离群值", # 勾选框提示文字
+    #               FALSE  # 默认状态
+    # )
+  ),
+  dashboardBody(
+    fluidRow(
+      box(
+        plotOutput("mpgPlot"), # 以图片形式输出mpgPlot变量
+        title = h3(textOutput("caption")) # 以三级标题形式输出caption变量
+      )
+    )
+  )
+)
+
+
+
+
